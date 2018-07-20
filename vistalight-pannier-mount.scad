@@ -11,15 +11,15 @@ $fn = 100;
 VL_WIDTH = 84.68;
 VL_HEIGHT = 57.6;
 VL_DEPTH = 21.5;
-VL_NOB_DIA = 6;
-VL_NOB_HEIGHT = 2.5;
+VL_NOB_DIA = 6 + 0.7; // 6.0 mm exact
+VL_NOB_HEIGHT = 2.5 + 0.5; // 2.5 mm exact
 VL_NOB_OFFSET = 19;
 
 module bolt() {
     HEIGHT = 3.5;
     cylinder(d = 5.5, h = HEIGHT);
     translate([0,0,HEIGHT])
-        cylinder(d = 11, h = 30);
+        cylinder(d = 13, h = 30);
 }
 module nobs() {
     translate([VL_NOB_OFFSET, 0, 0])
@@ -64,7 +64,7 @@ module rack_section() {
 }
 module weld() {
     // space out the weld gap, front-to-back
-    scale([1.1, 1, 1])
+    scale([1.0, 1.0, 1.0])
     
     rotate([-90,0,0]) {
         hull() {
@@ -79,7 +79,7 @@ module rack_top() {
     mirror_copy([0, 1, 0])
         rack_section();
 }
-RACK_BOTTOM_FORWARD_OFFSET = -1; // offset from rack_top to rack_bottom
+RACK_BOTTOM_FORWARD_OFFSET = -(1 + 0.1); // offset from rack_top to rack_bottom
 module rack_bottom() {
     translate([RACK_BOTTOM_FORWARD_OFFSET, 0, -TUBE_DIA])
     rotate([0,-60,0])
@@ -95,9 +95,9 @@ module rack() {
 module clamp_bolt() {
     CUT_DIMS = 30;
     translate([0,0,-CUT_DIMS]) {
-        cylinder(d = 3, h = CUT_DIMS);
+        cylinder(d = 2.5, h = CUT_DIMS);
         translate([0,0,CUT_DIMS])
-        cylinder(d = 6, h = CUT_DIMS);
+        cylinder(d = 8, h = CUT_DIMS);
     }
 }
 module raw_part() {
@@ -105,7 +105,7 @@ module raw_part() {
     difference() {
     hull() {
         translate([TUBE_DIA/2, 0, -VL_HEIGHT/2])
-        cube([TUBE_DIA, MOUNT_WIDTH, VL_HEIGHT-VL_NOB_OFFSET +2*VL_NOB_DIA], center = true);
+            cube([TUBE_DIA, MOUNT_WIDTH, VL_HEIGHT-VL_NOB_OFFSET +2*VL_NOB_DIA], center = true);
         rotate([90, 0, 0])
         cylinder(d = 1.5*TUBE_DIA, h = MOUNT_WIDTH, center = true);
         translate([RACK_BOTTOM_FORWARD_OFFSET,0,-TUBE_DIA])
@@ -118,7 +118,7 @@ module raw_part() {
         cube([2,100,100], center=true);
 
         // cut off pointy bottom
-        translate([-25,0,-60])
+        translate([-25,0,-42])
         cube([50, 50, 40], center=true);
     
         // cut mounting bolt
