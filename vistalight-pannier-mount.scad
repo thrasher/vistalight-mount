@@ -79,7 +79,7 @@ module rack_top() {
     mirror_copy([0, 1, 0])
         rack_section();
 }
-RACK_BOTTOM_FORWARD_OFFSET = -(1 + 0.1); // offset from rack_top to rack_bottom
+RACK_BOTTOM_FORWARD_OFFSET = -(1 + .6); // offset from rack_top to rack_bottom
 module rack_bottom() {
     translate([RACK_BOTTOM_FORWARD_OFFSET, 0, -TUBE_DIA])
     rotate([0,-60,0])
@@ -98,6 +98,10 @@ module clamp_bolt() {
         cylinder(d = 2.5, h = CUT_DIMS);
         translate([0,0,CUT_DIMS])
         cylinder(d = 8, h = CUT_DIMS);
+
+        // recess for threads
+        translate([0,0,CUT_DIMS - 4])
+        cylinder(d = 3.2, h = 20);
     }
 }
 module raw_part() {
@@ -140,3 +144,5 @@ module part() {
 //color("red") vistalight();
 
 part();
+
+//        clamp_bolt();    
