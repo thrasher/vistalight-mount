@@ -1,7 +1,7 @@
 // Vistalight pannier mount
 // Jason Thrasher
 // 7/19/2018
-// 
+//
 // dimensions in mm
 
 $fs = 0.1; // mm per facet in cylinder
@@ -33,7 +33,7 @@ module mirror_copy(v = [1, 0, 0]) {
 module vistalight() {
     translate([TUBE_DIA, 0, -VL_HEIGHT/2])
     rotate([-90,0,90])
-    {    
+    {
         translate([0, 0, -VL_DEPTH/2])
         cube([VL_WIDTH, VL_HEIGHT, VL_DEPTH], center=true);
         bolt();
@@ -45,17 +45,16 @@ module vistalight() {
 
 
 TUBE_DIA = 8.35; // 8.35mm exact
-TUBE_DIA = 8.35; // 8.35mm exact
 SECTION_WIDTH = 50;
 TOP_BEND_RAD = 20;
 module rack_section() {
-    
+
     translate([0, SECTION_WIDTH/2,0]) {
         rotate([90,0,0])
         cylinder(d = TUBE_DIA, h = SECTION_WIDTH/2);
     //    translate([TUBE_DIA, 0, 0])
     //    cylinder(d = TUBE_DIA, h = SECTION_WIDTH);
-      
+
         translate([-TOP_BEND_RAD, 0, 0])
         rotate_extrude(angle = 90, convexity = 100)
             translate([TOP_BEND_RAD, 0, 0])
@@ -65,7 +64,7 @@ module rack_section() {
 module weld() {
     // space out the weld gap, front-to-back
     scale([1.0, 1.0, 1.0])
-    
+
     rotate([-90,0,0]) {
         hull() {
             cylinder(d=TUBE_DIA, h=SECTION_WIDTH/2, center=true);
@@ -116,7 +115,7 @@ module raw_part() {
         rotate([90, 0, 0])
         cylinder(d = 1.5*TUBE_DIA, h = MOUNT_WIDTH, center = true);
     }
-    
+
         // cut slot
         translate([0,0,-50])
         cube([2,100,100], center=true);
@@ -124,11 +123,11 @@ module raw_part() {
         // cut off pointy bottom
         translate([-25,0,-42])
         cube([50, 50, 40], center=true);
-    
+
         // cut mounting bolt
         translate([-4,0,-17])
         rotate([0,-90,0])
-        clamp_bolt();    
+        clamp_bolt();
     }
 
 }
@@ -136,7 +135,7 @@ module part() {
     difference() {
         raw_part();
         rack();
-        vistalight();        
+        vistalight();
     }
 }
 //color("Black") rack();
@@ -145,4 +144,4 @@ module part() {
 
 part();
 
-//        clamp_bolt();    
+//        clamp_bolt();
